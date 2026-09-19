@@ -7,8 +7,8 @@ import { Sparkles, ShieldCheck, Lock, Mail, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState('admin@krishnatextiles.com');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -32,15 +32,6 @@ export default function LoginPage() {
     }
   };
 
-  const fillCredentials = (role) => {
-    if (role === 'admin') {
-      setEmail('admin@krishnatextiles.com');
-      setPassword('admin123');
-    } else {
-      setEmail('manager@krishnatextiles.com');
-      setPassword('manager123');
-    }
-  };
 
   return (
     <div className="min-h-screen w-full bg-[#06090E] flex items-center justify-center p-6 relative overflow-hidden">
@@ -113,26 +104,6 @@ export default function LoginPage() {
           </a>
         </div>
 
-        {/* Demo Fast Autofill */}
-        <div className="mt-8 pt-6 border-t border-dark-700/60">
-          <p className="text-[11px] text-slate-500 text-center uppercase tracking-wider font-semibold mb-3">
-            Quick Demo Autofill
-          </p>
-          <div className="grid grid-cols-2 gap-2 text-xs">
-            <button
-              onClick={() => fillCredentials('admin')}
-              className="px-3 py-2 rounded-xl bg-dark-800 hover:bg-dark-700 border border-dark-700 text-slate-300 font-semibold transition-colors"
-            >
-              Super Admin
-            </button>
-            <button
-              onClick={() => fillCredentials('manager')}
-              className="px-3 py-2 rounded-xl bg-dark-800 hover:bg-dark-700 border border-dark-700 text-slate-300 font-semibold transition-colors"
-            >
-              Staff Manager
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
