@@ -99,12 +99,19 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm shadow-xl shadow-brand-600/30 flex items-center justify-center space-x-2 transition-all disabled:opacity-50"
+            className="w-full mt-2 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold text-sm shadow-xl shadow-brand-600/30 flex items-center justify-center space-x-2 transition-all disabled:opacity-50 cursor-pointer"
           >
             <span>{loading ? 'Authenticating Session...' : 'Sign In to Portal'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
+
+        <div className="mt-5 text-center text-xs text-slate-400">
+          Need a new staff or admin account?{' '}
+          <a href="/signup" className="text-brand-400 font-semibold hover:underline">
+            Register Account
+          </a>
+        </div>
 
         {/* Demo Fast Autofill */}
         <div className="mt-8 pt-6 border-t border-dark-700/60">

@@ -60,7 +60,7 @@ const NAV_SECTIONS = [
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState({ name: 'Rajesh Sharma', role: 'ADMIN', email: 'admin@krishnatextiles.com' });
+  const [user, setUser] = useState({ name: 'Admin', role: 'ADMIN', email: '' });
 
   useEffect(() => {
     try {
@@ -69,9 +69,14 @@ export default function Sidebar() {
     } catch (e) {}
   }, []);
 
+  if (pathname === '/login' || pathname === '/signup') {
+    return null;
+  }
+
   const handleLogout = () => {
     localStorage.removeItem('kt_admin_token');
     localStorage.removeItem('kt_admin_user');
+    localStorage.removeItem('kt_admin_session');
     router.push('/login');
   };
 
