@@ -315,12 +315,34 @@ export default function OrdersPage() {
                       </td>
 
                       <td className="py-4 px-6">
-                        <div className="font-medium text-slate-900 dark:text-white">
-                          {o.items?.length || 0} Products
-                        </div>
-                        <div className="text-[11px] text-slate-400 truncate max-w-xs">
-                          {o.items?.[0]?.productName || 'Fabric Goods'}
-                          {o.items?.length > 1 && ` +${o.items.length - 1} more`}
+                        <div className="flex items-center space-x-3">
+                          {o.items?.[0]?.product?.imageUrl || o.items?.[0]?.imageUrl ? (
+                            <img
+                              src={o.items[0].product?.imageUrl || o.items[0].imageUrl}
+                              alt=""
+                              className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-dark-700 shrink-0 bg-slate-100 dark:bg-dark-800 shadow-sm"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.display = 'none';
+                                if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div 
+                            className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-dark-800 border border-slate-200 dark:border-dark-700 flex items-center justify-center shrink-0 text-slate-400"
+                            style={{ display: o.items?.[0]?.product?.imageUrl || o.items?.[0]?.imageUrl ? 'none' : 'flex' }}
+                          >
+                            <ShoppingBag className="w-4 h-4 text-slate-400" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="font-medium text-slate-900 dark:text-white">
+                              {o.items?.length || 0} Products
+                            </div>
+                            <div className="text-[11px] text-slate-400 truncate max-w-[180px]">
+                              {o.items?.[0]?.productName || 'Fabric Goods'}
+                              {o.items?.length > 1 && ` +${o.items.length - 1} more`}
+                            </div>
+                          </div>
                         </div>
                       </td>
 
@@ -750,19 +772,49 @@ export default function OrdersPage() {
               <div className="p-4 rounded-2xl bg-white dark:bg-dark-900 border border-slate-200 dark:border-dark-700">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Order Items</h4>
                 <div className="divide-y divide-slate-100 dark:divide-dark-800">
-                  {selectedOrder.items?.map((item, idx) => (
-                    <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
-                      <div>
-                        <div className="font-semibold text-slate-900 dark:text-white">{item.productName}</div>
-                        <div className="text-[11px] text-slate-400">
-                          Qty: {item.quantity} {item.size && `• Size: ${item.size}`}
+                  {selectedOrder.items?.map((item, idx) => {
+                    const itemImg = item.product?.imageUrl || item.imageUrl || item.product?.images?.[0];
+                    return (
+                      <div key={idx} className="py-3 flex items-center justify-between text-xs gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          {itemImg ? (
+                            <img
+                              src={itemImg}
+                              alt={item.productName}
+                              className="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-dark-700 shrink-0 bg-slate-100 dark:bg-dark-800 shadow-sm"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.style.display = 'none';
+                                if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <div
+                            className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-dark-800 border border-slate-200 dark:border-dark-700 flex items-center justify-center shrink-0 text-slate-400"
+                            style={{ display: itemImg ? 'none' : 'flex' }}
+                          >
+                            <ShoppingBag className="w-5 h-5 text-slate-400" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="font-semibold text-slate-900 dark:text-white truncate">{item.productName}</div>
+                            <div className="text-[11px] text-slate-400 mt-0.5">
+                              Qty: <span className="font-bold text-slate-700 dark:text-slate-300">{item.quantity}</span>
+                              {item.size && <span> · Size: <span className="font-semibold text-slate-700 dark:text-slate-300">{item.size}</span></span>}
+                              {item.color && <span> · Color: <span className="font-semibold text-slate-700 dark:text-slate-300">{item.color}</span></span>}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="font-bold text-slate-900 dark:text-white shrink-0 text-right">
+                          <div>₹{item.totalPrice?.toLocaleString('en-IN')}</div>
+                          {item.quantity > 1 && (
+                            <div className="text-[10px] text-slate-400 font-normal">
+                              (₹{item.unitPrice?.toLocaleString('en-IN')} each)
+                            </div>
+                          )}
                         </div>
                       </div>
-                      <div className="font-bold text-slate-900 dark:text-white">
-                        ₹{item.totalPrice?.toLocaleString('en-IN')}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-200 dark:border-dark-700 flex justify-between items-center text-sm font-bold text-slate-900 dark:text-white">
